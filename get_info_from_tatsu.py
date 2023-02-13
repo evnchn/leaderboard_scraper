@@ -1,14 +1,9 @@
-import pathlib
 import requests
-import pprint
 import time
 import json
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
-latest_state_json_file = str(pathlib.Path(
-    __file__).parent.absolute() / "all_stats.json")
 
 last_retry_time = 0  # 0 means no retry limit. See `if last_retry_time`
 remaining_quota = 0  # will always be initialized in first strike
@@ -38,7 +33,7 @@ internal_state = {}
 
 while True:
     try:
-        with open(latest_state_json_file, "r", encoding="utf-8") as f:
+        with open("www/all_stats.json", "r", encoding="utf-8") as f:
             internal_state = json.load(f)
     except:
         input("Loss of past memory!")
@@ -52,7 +47,7 @@ while True:
         assert isinstance(internal_state["PROFILES"], dict)
     except:
         internal_state["PROFILES"] = {}
-        
+
     try:
         all_user_data = held_response(
             "https://api.tatsu.gg/v1/guilds/880301598981648416/rankings/all", headers={"Authorization": key})
@@ -98,7 +93,7 @@ while True:
     internal_state["SCORE_HISTORY"] = {k: v for k, v in sorted(
         internal_state["SCORE_HISTORY"].items(), key=lambda item: item[1][-1]["SCORE"], reverse=True)}
     try:
-        with open(latest_state_json_file, "w", encoding="utf-8") as f:
+        with open("www/all_stats.json", "w", encoding="utf-8") as f:
             json.dump(internal_state, f, indent=2)
     except:
         print("Can't store memory!")
