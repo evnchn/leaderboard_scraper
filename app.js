@@ -5,8 +5,10 @@
 //Chart.register(ArcElement, Tooltip, LinearScale, TimeScale);
 
 
+
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
+
 
 var chart_body = new Chart(
     document.getElementById('acquisitions'),
@@ -34,6 +36,7 @@ var chart_body = new Chart(
                     }*/
                 }
             }
+              
         }
     }
 );
@@ -49,6 +52,7 @@ fetch("all_stats.json")
         var count = 0;
         for (const [key, value] of Object.entries(data["SCORE_HISTORY"])) {
             count += 1;
+            if (count >7) {break}
             console.log(count);
             var data_array = [];
             for (var i = 0; i < value.length; i++) {
@@ -66,13 +70,7 @@ fetch("all_stats.json")
 
         console.log(datasets_prepare);
         chart_body.data.datasets = datasets_prepare;
+        chart_body.update();
 
 
     });
-
-
-
-
-
-
-//const labels = Utils.months({ count: 7 });
