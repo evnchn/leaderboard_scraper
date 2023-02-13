@@ -84,14 +84,15 @@ while True:
 
     updated_user_id_and_time = {k: v for k, v in sorted(
         updated_user_id_and_time.items(), key=lambda item: item[1])}
-    user_id_to_update_data = list(updated_user_id_and_time.keys())[0]
-    user_data = held_response(
-        f"https://api.tatsu.gg/v1/users/{user_id_to_update_data}/profile", headers={"Authorization": key})
-    internal_state["PROFILES"][user_id_to_update_data] = {
-        "FETCHED": True, "DATA": user_data, "TIME": current_time}
-    print("Updated profile ID", user_id_to_update_data)
-    internal_state["SCORE_HISTORY"] = {k: v for k, v in sorted(
-        internal_state["SCORE_HISTORY"].items(), key=lambda item: item[1][-1]["SCORE"], reverse=True)}
+    if updated_user_id_and_time:
+        user_id_to_update_data = list(updated_user_id_and_time.keys())[0]
+        user_data = held_response(
+            f"https://api.tatsu.gg/v1/users/{user_id_to_update_data}/profile", headers={"Authorization": key})
+        internal_state["PROFILES"][user_id_to_update_data] = {
+            "FETCHED": True, "DATA": user_data, "TIME": current_time}
+        print("Updated profile ID", user_id_to_update_data)
+        internal_state["SCORE_HISTORY"] = {k: v for k, v in sorted(
+            internal_state["SCORE_HISTORY"].items(), key=lambda item: item[1][-1]["SCORE"], reverse=True)}
     try:
         with open("www/all_stats.json", "w", encoding="utf-8") as f:
             json.dump(internal_state, f, indent=2)
