@@ -25,6 +25,7 @@ def held_response(url, headers):
     # pprint.pprint(r.headers)
     remaining_quota = int(r.headers["x-ratelimit-remaining"])
     last_retry_time = int(r.headers["x-ratelimit-reset"])
+    time.sleep(0.5)
     return rjson
 
 

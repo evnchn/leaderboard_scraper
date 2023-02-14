@@ -3,7 +3,7 @@ import ssl
 import sys
 
 
-HOST = '192.168.50.208'
+HOST = '0.0.0.0'
 PORT = 6387
 Handler = http.server.SimpleHTTPRequestHandler
 with http.server.HTTPServer((HOST, PORT), Handler) as httpd:
