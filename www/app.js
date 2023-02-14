@@ -41,7 +41,7 @@ var chart_body = new Chart(
     }
 );
 
-fetch("all_stats.json")
+fetch("all_stats.json?"+Math.random())
     .then((response) => response.json())
     .then((data) => {
         console.log(data);
